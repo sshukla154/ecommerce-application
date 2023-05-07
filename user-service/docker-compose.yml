@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  postgres-db-server:
     image: postgres
     container_name: postgres_container
     networks:
@@ -17,7 +17,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-  pgadmin:
+  pgadmin-server:
     image: dpage/pgadmin4
     container_name: pgadmin4_container
     networks:
@@ -28,18 +28,14 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80"
-  liquibase:
+  liquibase-server:
     image: liquibase/liquibase
     container_name: liquibase_container
     networks:
       - ecommerce_network_user_service
     depends_on:
-      db:
+      postgres-db-server:
         condition: service_healthy
-    volumes:
-      - ./database/sql/liquibase/changeLog/:/liquibase/changelog/
-    command: --defaults-file=/liquibase/changelog/liquibase.properties update
 
 networks:
-  local_net:
-    name: ecommerce_network_user_service
+  ecommerce_network_user_service:
