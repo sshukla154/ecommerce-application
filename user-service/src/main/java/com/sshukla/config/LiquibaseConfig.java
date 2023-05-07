@@ -11,9 +11,18 @@ import javax.sql.DataSource;
  * Created by `Seemant Shukla` on 07-05-2023
  */
 
+/**
+ * This class represents the configuration for Liquibase, a database migration tool.
+ */
+
 @Configuration
 public class LiquibaseConfig {
 
+	/**
+	 * This method creates a SpringLiquibase bean to perform database migration.
+	 *
+	 * @return the SpringLiquibase bean
+	 */
 	@Bean
 	public SpringLiquibase liquibase() {
 		SpringLiquibase liquibase = new SpringLiquibase();
@@ -22,6 +31,11 @@ public class LiquibaseConfig {
 		return liquibase;
 	}
 
+	/**
+	 * This method creates a DataSource bean to connect to the database.
+	 *
+	 * @return the DataSource bean
+	 */
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();

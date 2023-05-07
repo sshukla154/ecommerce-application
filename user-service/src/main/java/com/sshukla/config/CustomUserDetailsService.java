@@ -19,6 +19,11 @@ import java.util.Collection;
  * Created by `Seemant Shukla` on 07-05-2023
  */
 
+
+/**
+ * This class represents a custom user details service for authentication and authorization.
+ * It implements the UserDetailsService interface and provides methods to load user details from the database.
+ */
 @Service
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
@@ -29,6 +34,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	/**
+	 * This method loads user details by the given username.
+	 *
+	 * @param username the username of the user to load
+	 * @return the UserDetails object representing the loaded user
+	 * @throws UsernameNotFoundException if the username is not found in the database
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User savedUser = userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
@@ -70,6 +82,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 		};
 	}
 
+	/**
+	 * This method creates a PasswordEncoder bean to encode passwords.
+	 *
+	 * @return the PasswordEncoder bean
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

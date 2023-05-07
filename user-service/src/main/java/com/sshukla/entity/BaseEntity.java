@@ -12,16 +12,22 @@ import java.time.LocalDateTime;
  * Created by `Seemant Shukla` on 07-05-2023
  */
 
+
+/**
+ * The BaseEntity class is a JPA entity that defines common properties for all entities in the application.
+ * It is annotated with @MappedSuperclass to indicate that this class should not be mapped to a database table, but its
+ * fields should be inherited by its subclasses.
+ */
 @MappedSuperclass
 public class BaseEntity {
 
-    @Id
-    @Column(name = "id")
-    private String id;
+	@Id
+	@Column(name = "id")
+	private String id;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+	@CreationTimestamp
+	private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
 }
