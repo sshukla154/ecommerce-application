@@ -1,10 +1,8 @@
 version: '3.8'
 services:
   postgres-db-server:
-    image: postgres
     container_name: postgres_container
-    networks:
-      - ecommerce_network_user_service
+    image: postgres
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -12,30 +10,33 @@ services:
       POSTGRES_DATABASE: user_service
     ports:
       - "5432:5432"
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-  pgadmin-server:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
     networks:
       - ecommerce_network_user_service
+    volumes:
+      - ./src/config/local-database-init:/docker-entrypoint-initdb.d
+  pgadmin-server:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80"
-  liquibase-server:
-    image: liquibase/liquibase
-    container_name: liquibase_container
+    depends_on:
+      - postgres-db-server
     networks:
       - ecommerce_network_user_service
+  liquibase-server:
+    container_name: liquibase_container
+    image: liquibase/liquibase
     depends_on:
-      postgres-db-server:
-        condition: service_healthy
+      - postgres-db-server
+    command: ["--changeLogFile=db/changelog/db.changelog-master.xml", "--url=jdbc:postgresql://postgres_container:5432/user_service", "--username=postgres", "--password=postgres", "update"]
+    volumes:
+      - ./src/main/resources/db/changelog:/docker-entrypoint-initdb.
+    networks:
+      - ecommerce_network_user_service
 
 networks:
   ecommerce_network_user_service:
