@@ -1,6 +1,9 @@
 version: '3.8'
 services:
   postgres-db-server:
+    build:
+      context: ./src/main/resources/database-init
+      dockerfile: DockerFile
     container_name: postgres_container
     image: postgres
     restart: always
@@ -13,7 +16,7 @@ services:
     networks:
       - ecommerce_network_user_service
     volumes:
-      - ./src/config/local-database-init:/docker-entrypoint-initdb.d
+      - ./src/main/resources/database-init:/docker-entrypoint-initdb.d
   pgadmin-server:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -32,9 +35,14 @@ services:
     image: liquibase/liquibase
     depends_on:
       - postgres-db-server
-    command: ["--changeLogFile=db/changelog/db.changelog-master.xml", "--url=jdbc:postgresql://postgres_container:5432/user_service", "--username=postgres", "--password=postgres", "update"]
+    environment:
+      LIQUIBASE_COMMAND_USERNAME: postgres
+      LIQUIBASE_COMMAND_PASSWORD: postgres
+      LIQUIBASE_COMMAND_URL: jdbc:postgresql://postgres_container:5432/user_service?currentSchema=user_service
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: db/changelog/db.changelog-master.xml
+    command: ["--changeLogFile=db/changelog/db.changelog-master.xml", "--url=jdbc:postgresql://postgres_container:5432/user_service?currentSchema=user_service", "--username=postgres", "--password=postgres", "update"]
     volumes:
-      - ./src/main/resources/db/changelog:/docker-entrypoint-initdb.
+      - ./src/main/resources/db/changelog:/docker-entrypoint-initdb.d
     networks:
       - ecommerce_network_user_service
 

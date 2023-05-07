@@ -1,0 +1,7 @@
+FROM postgres:15.1-alpine
+
+LABEL author="Seemant Shukla"
+LABEL description="Postgres Image for User Service"
+LABEL version="1.0"
+
+COPY docker_postgres_init.sql /docker-entrypoint-initdb.d/
