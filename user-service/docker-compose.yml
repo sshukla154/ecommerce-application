@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    container_name: postgres_container
+    networks:
+      - ecommerce_network_user_service
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: user_service
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    networks:
+      - ecommerce_network_user_service
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+  liquibase:
+    image: liquibase/liquibase
+    container_name: liquibase_container
+    networks:
+      - ecommerce_network_user_service
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./database/sql/liquibase/changeLog/:/liquibase/changelog/
+    command: --defaults-file=/liquibase/changelog/liquibase.properties update
+
+networks:
+  local_net:
+    name: ecommerce_network_user_service
