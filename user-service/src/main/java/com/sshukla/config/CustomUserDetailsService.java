@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return new UserDetails() {
 			@Override
 			public Collection<? extends GrantedAuthority> getAuthorities() {
-				return savedUser.getRole();
+				return savedUser.getAllAuthorities();
 			}
 
 			@Override
