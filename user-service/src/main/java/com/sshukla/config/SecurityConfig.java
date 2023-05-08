@@ -70,9 +70,14 @@ public class SecurityConfig {
 
 	}
 
+	/**
+	 * Creates an AuthenticationProvider bean to configure authentication with the specified UserDetailsService and PasswordEncoder.
+	 *
+	 * @return the AuthenticationProvider bean
+	 */
 	@Bean
-	public AuthenticationProvider authenticationProvider(){
-		DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(userDetailsService());
 		authenticationProvider.setPasswordEncoder(passwordConfig.passwordEncoder());
 		return authenticationProvider;
