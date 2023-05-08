@@ -39,8 +39,8 @@ services:
       LIQUIBASE_COMMAND_USERNAME: postgres
       LIQUIBASE_COMMAND_PASSWORD: postgres
       LIQUIBASE_COMMAND_URL: jdbc:postgresql://postgres_container:5432/user_service?currentSchema=user_service
-      LIQUIBASE_COMMAND_CHANGELOG_FILE: db/changelog/db.changelog-master.xml
-    command: ["--changeLogFile=db/changelog/db.changelog-master.xml", "--url=jdbc:postgresql://postgres_container:5432/user_service?currentSchema=user_service", "--username=postgres", "--password=postgres", "update"]
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: /db/changelog/db.changelog-master.xml
+    command: ["--changeLogFile=/db/changelog/db.changelog-master.xml", "--url=jdbc:postgresql://postgres_container:5432/user_service?currentSchema=user_service", "--username=postgres", "--password=postgres", "update"]
     volumes:
       - ./src/main/resources/db/changelog:/docker-entrypoint-initdb.d
     networks:

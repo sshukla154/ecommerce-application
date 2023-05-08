@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Collection;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -24,18 +23,17 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class User extends BaseEntity {
 
-	private String firstName;
-	private String lastName;
+	private String firstname;
+	private String lastname;
 	private String username;
 	private String password;
-	private String email;
 	private List<Role> roles;
 	private boolean enabled;
 
 	/**
 	 * @return Returns all the authorities/roles of the user
 	 */
-	public Collection<GrantedAuthority> getAllAuthorities() {
+	public List<GrantedAuthority> getAllAuthorities() {
 		return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(toList());
 	}
 

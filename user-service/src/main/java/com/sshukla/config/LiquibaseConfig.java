@@ -26,7 +26,7 @@ public class LiquibaseConfig {
 	@Bean
 	public SpringLiquibase liquibase() {
 		SpringLiquibase liquibase = new SpringLiquibase();
-		liquibase.setChangeLog("classpath:/db/changelog/db.changelog-master.xml");
+		liquibase.setChangeLog("/db/changelog/db.changelog-master.xml");
 		liquibase.setDataSource(dataSource());
 		return liquibase;
 	}
@@ -42,7 +42,7 @@ public class LiquibaseConfig {
 		dataSource.setDriverClassName("org.postgresql.Driver");
 		dataSource.setUrl("jdbc:postgresql://localhost:5432/user_service");
 		dataSource.setUsername("postgres");
-		dataSource.setPassword("admin");
+		dataSource.setPassword("postgres");
 		return dataSource;
 	}
 }
