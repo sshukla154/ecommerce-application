@@ -8,20 +8,20 @@
 
     <changeSet id="20230508-userdata" author="Seemant Shukla">
         <insert tableName="users">
-            <column name="id" value="1" />
+            <column name="id" value="2279e7f7-376a-4ce6-9210-9f58bef4d013" />
             <column name="firstname" value="Seemant" />
             <column name="lastname" value="Shukla" />
             <column name="username" value="admin@admin.com" />
-            <column name="password" value="admin" />
+            <column name="password" value="" />
             <column name="roles" value="{'ECOMMERCE_ADMIN', 'ECOMMERCE_USER'}" />
             <column name="enabled" value="true" />
         </insert>
         <insert tableName="users">
-            <column name="id" value="2" />
+            <column name="id" value="2d1162c9-28b1-47ea-b58c-681e8c992eba" />
             <column name="firstname" value="Harry" />
             <column name="lastname" value="Doe" />
             <column name="username" value="user@user.com" />
-            <column name="password" value="user" />
+            <column name="password" value="" />
             <column name="roles" value="{'ECOMMERCE_USER'}" />
             <column name="enabled" value="true" />
         </insert>

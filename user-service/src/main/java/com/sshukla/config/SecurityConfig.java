@@ -3,6 +3,9 @@ package com.sshukla.config;
 import com.sshukla.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,12 +21,16 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
 	private final CustomUserDetailsService customUserDetailsService;
 
-	public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+	private final PasswordConfig passwordConfig;
+
+	public SecurityConfig(CustomUserDetailsService customUserDetailsService, PasswordConfig passwordConfig) {
 		this.customUserDetailsService = customUserDetailsService;
+		this.passwordConfig = passwordConfig;
 	}
 
 	/**
@@ -50,17 +57,25 @@ public class SecurityConfig {
 
 		return http.csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/api/v1/users/welcome").permitAll()
+				.requestMatchers("/api/v1/users/welcome", "/api/v1/users/create", "/api/v1/users/password/**").permitAll()
 				.and()
 				.authorizeHttpRequests()
 				.requestMatchers("/api/v1/users/**")
 				.authenticated()
 				.and()
-				//.formLogin() -- Disabled for Basic Authentication
-				.httpBasic()
+				.formLogin()
+//				.httpBasic() -- Disabled for Basic Authentication
 				.and()
 				.build();
 
+	}
+
+	@Bean
+	public AuthenticationProvider authenticationProvider(){
+		DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService());
+		authenticationProvider.setPasswordEncoder(passwordConfig.passwordEncoder());
+		return authenticationProvider;
 	}
 
 }
