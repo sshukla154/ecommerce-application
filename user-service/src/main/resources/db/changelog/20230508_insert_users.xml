@@ -12,8 +12,8 @@
             <column name="firstname" value="Seemant" />
             <column name="lastname" value="Shukla" />
             <column name="username" value="admin@admin.com" />
-            <column name="password" value="password123" />
-            <column name="roles" value="{'admin', 'user'}" />
+            <column name="password" value="admin" />
+            <column name="roles" value="{'ECOMMERCE_ADMIN', 'ECOMMERCE_USER'}" />
             <column name="enabled" value="true" />
         </insert>
         <insert tableName="users">
@@ -21,8 +21,8 @@
             <column name="firstname" value="Harry" />
             <column name="lastname" value="Doe" />
             <column name="username" value="user@user.com" />
-            <column name="password" value="password456" />
-            <column name="roles" value="{'user'}" />
+            <column name="password" value="user" />
+            <column name="roles" value="{'ECOMMERCE_USER'}" />
             <column name="enabled" value="true" />
         </insert>
     </changeSet>

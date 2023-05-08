@@ -1,7 +1,6 @@
 package com.sshukla.config;
 
 import com.sshukla.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,8 +20,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	@Autowired
-	private CustomUserDetailsService customUserDetailsService;
+	private final CustomUserDetailsService customUserDetailsService;
+
+	public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+		this.customUserDetailsService = customUserDetailsService;
+	}
 
 	/**
 	 * This method creates a UserDetailsService bean to load user details from memory.

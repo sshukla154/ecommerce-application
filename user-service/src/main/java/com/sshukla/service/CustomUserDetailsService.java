@@ -2,13 +2,9 @@ package com.sshukla.service;
 
 import com.sshukla.entity.User;
 import com.sshukla.repository.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +23,11 @@ import java.security.Principal;
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	private UserRepo userRepo;
+	private final UserRepo userRepo;
+
+	public CustomUserDetailsService(UserRepo userRepo) {
+		this.userRepo = userRepo;
+	}
 
 	/**
 	 * This method loads user details by the given username.
@@ -48,10 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	 *
 	 * @return the PasswordEncoder bean
 	 */
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 	public User getLoggedInUser(Principal principal) {
 		return userRepo.findByUsername(principal.getName()).get();
