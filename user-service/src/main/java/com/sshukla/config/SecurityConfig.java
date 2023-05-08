@@ -1,5 +1,6 @@
 package com.sshukla.config;
 
+import com.sshukla.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,15 +48,17 @@ public class SecurityConfig {
 
 		return http.csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/api/users/welcome").permitAll()
+				.requestMatchers("/api/v1/users/welcome").permitAll()
 				.and()
 				.authorizeHttpRequests()
-				.requestMatchers("/api/users/**")
+				.requestMatchers("/api/v1/users/**")
 				.authenticated()
 				.and()
-				.formLogin()
+				//.formLogin() -- Disabled for Basic Authentication
+				.httpBasic()
 				.and()
 				.build();
 
 	}
+
 }

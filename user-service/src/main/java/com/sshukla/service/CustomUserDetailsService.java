@@ -1,4 +1,4 @@
-package com.sshukla.config;
+package com.sshukla.service;
 
 import com.sshukla.entity.User;
 import com.sshukla.repository.UserRepo;
@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Principal;
 
 /**
  * Created by `Seemant Shukla` on 07-05-2023
@@ -50,4 +52,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+	public User getLoggedInUser(Principal principal) {
+		return userRepo.findByUsername(principal.getName()).get();
+	}
+
 }

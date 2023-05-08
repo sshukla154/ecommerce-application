@@ -1,4 +1,4 @@
-package com.sshukla.config;
+package com.sshukla.service;
 
 import com.sshukla.entity.User;
 import org.springframework.security.core.GrantedAuthority;
