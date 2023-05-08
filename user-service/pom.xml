@@ -15,6 +15,7 @@
     <description>User Service of SShukla Ecommerce</description>
     <properties>
         <java.version>17</java.version>
+        <springfox.version>3.0.0</springfox.version>
     </properties>
     <dependencies>
         <dependency>
@@ -69,7 +70,16 @@
             <artifactId>liquibase-core</artifactId>
             <version>4.5.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
