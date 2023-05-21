@@ -1,0 +1,1 @@
+GRANT ALL PRIVILEGES ON DATABASE user_service TO postgres;
